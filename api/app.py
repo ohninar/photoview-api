@@ -129,6 +129,26 @@ def list_photos():
     )
 
 
+@flask_app.route("/photos/pendent", methods=["GET"])
+@jwt_required()
+def list_pendent_photos():
+    user_id = get_jwt_identity()
+    user = user_store.get_by_id(user_id)
+    if not user:
+        return jsonify({"detail": "not found"}), 404
+
+    if not user.admin:
+        return jsonify({"detail": "forbidden"}), 403
+
+    photos = photo_store.get_pendent_photos()
+
+    return jsonify(
+        {
+            "photos": photos,
+        }
+    )
+
+
 @flask_app.route(
     "/photos/<string:photo_id>/authorized", methods=["PUT"], endpoint="authorized_photo"
 )

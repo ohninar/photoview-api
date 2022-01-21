@@ -96,6 +96,66 @@ def test_api_get_gallery(user_simple, user_simple_token, client, mongo_db):
     assert response.json["photos"][0]["uri"] == second_photo["URI"]
 
 
+def test_api_get_photos_pendent(user_admin, user_admin_token, client, mongo_db):
+    photo_store = PhotoStore(mongo_db())
+
+    first_photo = Photo(
+        {
+            "_id": ObjectId(),
+            "URI": "s3://photoview/test1.png",
+            "user_id": user_admin._id,
+        }
+    )
+    photo_store.save(first_photo)
+
+    second_photo = Photo(
+        {
+            "_id": ObjectId(),
+            "URI": "s3://photoview/test2.png",
+            "visible": True,
+            "user_id": user_admin._id,
+        }
+    )
+    photo_store.save(second_photo)
+
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {user_admin_token}",
+    }
+
+    response = client.get("/photos/pendent", headers=headers)
+    assert response.status_code == 200
+    assert len(response.json["photos"]) == 1
+    assert response.json["photos"][0]["uri"] == first_photo["URI"]
+
+
+def test_api_photo_pendent_user_not_admin(
+    user_simple, user_simple_token, client, mongo_db
+):
+    photo_store = PhotoStore(mongo_db())
+    user_id = ObjectId()
+
+    first_photo = Photo(
+        {
+            "_id": ObjectId(),
+            "URI": "s3://photoview/test1.png",
+            "user_id": user_id,
+        }
+    )
+    photo_store.save(first_photo)
+
+    photo = photo_store.get_by_id(first_photo._id)
+    assert photo.visible is False
+
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {user_simple_token}",
+    }
+
+    response = client.get(f"/photos/pendent", headers=headers)
+    assert response.status_code == 403
+
+
 def test_api_photo_authorized(user_admin, user_admin_token, client, mongo_db):
     photo_store = PhotoStore(mongo_db())
 
