@@ -29,7 +29,7 @@ def test_photo_store_get_visible_photos(mongo_db):
 
     total_photo, photos_visible = photo_store.get_visible_photos()
     assert total_photo == 1
-    assert photos_visible[0]["URI"] == second_photo["URI"]
+    assert photos_visible[0]["uri"] == second_photo["URI"]
 
 
 def test_photo_store_authorized(mongo_db):

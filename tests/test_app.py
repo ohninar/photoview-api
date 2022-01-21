@@ -93,7 +93,7 @@ def test_api_get_gallery(user_simple, user_simple_token, client, mongo_db):
     response = client.get("/photos", headers=headers)
     assert response.status_code == 200
     assert len(response.json["photos"]) == 1
-    assert response.json["photos"][0] == second_photo["URI"]
+    assert response.json["photos"][0]["uri"] == second_photo["URI"]
 
 
 def test_api_photo_authorized(user_admin, user_admin_token, client, mongo_db):

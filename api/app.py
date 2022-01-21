@@ -124,7 +124,7 @@ def list_photos():
             "total": total_photos,
             "offset": offset,
             "per_page": per_page,
-            "photos": [photo.URI for photo in photos],
+            "photos": photos,
         }
     )
 

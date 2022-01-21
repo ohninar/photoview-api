@@ -41,7 +41,11 @@ class PhotoStore(StorageMixin):
 
     def get_visible_photos(self, offset=0, per_page=10):
         photos = self.find({"visible": True})
-        return len(photos), photos[offset : offset + per_page]
+        delivery_photos = []
+        for photo in photos[offset: offset + per_page]:
+            delivery_photos.append({"id": str(photo._id), "uri": photo.URI})
+
+        return len(photos), delivery_photos
 
     def authorized(self, photo_id):
         self.update_by_id(photo_id, {"visible": True})
