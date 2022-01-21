@@ -1,0 +1,12 @@
+version: '3.2'
+services:
+  mongo:
+    image: 'mongo:4.2'
+    volumes:
+      - 'mongodb-data:/data/db'
+      - '/usr/share/zoneinfo/UTC:/etc/localtime:ro'
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongodb-data:
