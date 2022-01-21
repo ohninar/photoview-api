@@ -42,7 +42,7 @@ class PhotoStore(StorageMixin):
     def get_visible_photos(self, offset=0, per_page=10):
         photos = self.find({"visible": True})
         delivery_photos = []
-        for photo in photos[offset: offset + per_page]:
+        for photo in photos[offset : offset + per_page]:
             delivery_photos.append({"id": str(photo._id), "uri": photo.URI})
         return len(photos), delivery_photos
 

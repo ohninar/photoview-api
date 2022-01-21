@@ -4,6 +4,7 @@ from bson.errors import InvalidId
 from bson.objectid import ObjectId
 from flask import Flask, jsonify, request
 from flask_bcrypt import Bcrypt, generate_password_hash
+from flask_cors import CORS
 from flask_jwt_extended import (
     JWTManager,
     create_access_token,
@@ -29,6 +30,7 @@ def create_app():
 flask_app = create_app()
 bcrypt = Bcrypt(flask_app)
 jwt = JWTManager(flask_app)
+CORS(flask_app)
 
 user_store = UserStore(mongo_db)
 photo_store = PhotoStore(mongo_db)

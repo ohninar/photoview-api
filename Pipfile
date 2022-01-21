@@ -17,6 +17,7 @@ flask-jwt-extended = "*"
 boto3 = "*"
 gunicorn = "*"
 furl = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.7"
