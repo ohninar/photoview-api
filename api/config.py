@@ -3,7 +3,7 @@ import os
 secret_key = os.environ.get("SECRET_KEY")
 server_name = os.environ.get("SERVER_NAME")
 
-mongo_uri = os.environ.get("ORMONGO_URL", "localhost:27017")
+mongo_uri = os.environ.get("MONGO_URL", "localhost:27017")
 mongo_db = os.environ.get("MONGO_DB", "photoview")
 mongo_read_preference = os.environ.get("MONGO_READ_PREFERENCE", "PRIMARY")
 
